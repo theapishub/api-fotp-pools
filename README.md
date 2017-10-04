@@ -28,3 +28,9 @@ vendor/robmorgan/phinx/bin/phinx status
 vendor/robmorgan/phinx/bin/phinx migrate
 vendor/robmorgan/phinx/bin/phinx create NewMigrate
 ```
+
+# Running web server
+
+```
+php -S localhost:8000 index.php
+```

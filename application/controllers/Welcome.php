@@ -22,4 +22,10 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+
+	public function example_api(){
+		$this->output
+      ->set_content_type('application/json')
+      ->set_output(json_encode(array('foo' => 'bar')));
+	}
 }
