@@ -18,7 +18,7 @@ environments:
         adapter: mysql
         host: localhost
         name: fotp_pools
-        user: root
+        user: admin
         pass: 123456
         port: 3306
         charset: utf8

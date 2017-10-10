@@ -32,5 +32,5 @@ vendor/robmorgan/phinx/bin/phinx create NewMigrate
 # Running web server
 
 ```
-php -S localhost:8000 index.php
+Using the virtual host to run the api
 ```

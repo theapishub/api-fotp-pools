@@ -1,6 +1,4 @@
 <?php
-
-
 use Phinx\Migration\AbstractMigration;
 
 class NewUserTable extends AbstractMigration
