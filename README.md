@@ -12,6 +12,7 @@ composer install
 
 ```
 mkdir -p db/migrations db/seeds
+seed:run
 ```
 
 ## Linux
@@ -27,6 +28,7 @@ vendor/robmorgan/phinx/bin/phinx init
 vendor/robmorgan/phinx/bin/phinx status
 vendor/robmorgan/phinx/bin/phinx migrate
 vendor/robmorgan/phinx/bin/phinx create NewMigrate
+seed:run -s 
 ```
 
 # Running web server
