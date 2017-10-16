@@ -15,11 +15,13 @@ class UserSeeder extends AbstractSeed
     {
         $faker = Faker\Factory::create();
         $data = [];
+
         for ($i = 0; $i < 100; $i++) {
+            $salt = $faker->password.'290a27164f3b438308f0b942223b64db4faf5c68';
             $data[] = [
                 'username'      => $faker->userName,
                 'password'      => sha1($faker->password),
-                'password_salt' => sha1('foo'),
+                'password_salt' => hash('sha256', $salt),
                 'email'         => $faker->email,
                 'fullname'    => $faker->name,
                 'created'       => date('Y-m-d H:i:s'),
