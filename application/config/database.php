@@ -82,8 +82,8 @@ if( getenv("CLEARDB_DATABASE_URL") ){ // heroku
 }else{
 	$hostname = 'localhost';
 	$database= 'fotp_pools';
-	$username = 'root';
-	$password = '';	
+	$username = 'admin';
+	$password = '123456';
 }
 
 $db['default'] = array(
