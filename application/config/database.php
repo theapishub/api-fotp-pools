@@ -108,4 +108,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-print_r($db);exit();
+exit();
