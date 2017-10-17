@@ -8,7 +8,7 @@ environments:
     production:
         adapter: mysql
         host: us-cdbr-iron-east-05.cleardb.net
-        name: fotp_pools
+        name: heroku_35cdcdca339fb77
         user: b5eae249161a92
         pass: 0e28695b
         port: 3306
