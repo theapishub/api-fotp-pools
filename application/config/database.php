@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 if( getenv("CLEARDB_DATABASE_URL") ){ // heroku
 	$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-
+	print_r($url);
 	$hostname = $url["host"];
 	$username = $url["user"];
 	$password = $url["pass"];
@@ -86,8 +86,6 @@ if( getenv("CLEARDB_DATABASE_URL") ){ // heroku
 	$password = '';
 	$database= 'fotp_pools';	
 }
-
-print_r($hostname);
 
 $db['default'] = array(
 	'dsn'	=> '',
