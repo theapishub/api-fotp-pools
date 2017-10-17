@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class User_model extends CI_Model
 {
     private $status = 0;
@@ -9,7 +8,6 @@ class User_model extends CI_Model
         parent::__construct();
         $this->load->library('User_lib');
     }
-
     public function get($id = null)
     {
         try{
@@ -28,9 +26,7 @@ class User_model extends CI_Model
         }catch (Exception $e){
             return $e;
         }
-
     }
-
     public function delete($id)
     {
         try{
@@ -38,13 +34,11 @@ class User_model extends CI_Model
                 $this->db->delete('users', array('user_id' => $id));
             }
             return null;
-
         }catch (Exception $e)
         {
             return $e;
         }
     }
-
     public function login($email,$password)
     {
         try{
@@ -52,13 +46,12 @@ class User_model extends CI_Model
                 $query = $this->db->select('*')->from('users')->where(array(
                     'email'=> $email,
                     'password_salt'=>$password
-                    ))->get();
+                ))->get();
                 if($query->num_rows() == 1){
                     return $query->custom_row_object(0, 'User_lib');
                 }
             }
             return null;
-
         }catch (Exception $e)
         {
             return $e;
