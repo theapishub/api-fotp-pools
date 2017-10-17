@@ -92,7 +92,7 @@ $db['default'] = array(
 	'username' => $username,
 	'password' => $password,
 	'database' => $database,
-	'dbdriver' => 'mysqli',
+	'dbdriver' => 'mysql',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
