@@ -74,17 +74,16 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 if( getenv("CLEARDB_DATABASE_URL") ){ // heroku
-	$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 	
-	$hostname = $url["host"];
-	$username = $url["user"];
-	$password = $url["pass"];
-	$database = substr($url["path"], 1);
+	$hostname = 'us-cdbr-iron-east-05.cleardb.net';
+	$database = 'heroku_35cdcdca339fb77';
+	$username = 'b5eae249161a92';
+	$password = '0e28695b';	
 }else{
 	$hostname = 'localhost';
+	$database= 'fotp_pools';
 	$username = 'root';
-	$password = '';
-	$database= 'fotp_pools';	
+	$password = '';	
 }
 
 $db['default'] = array(

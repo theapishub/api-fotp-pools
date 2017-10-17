@@ -7,10 +7,10 @@ environments:
     default_database: development
     production:
         adapter: mysql
-        host: localhost
+        host: us-cdbr-iron-east-05.cleardb.net
         name: fotp_pools
-        user: root
-        pass: 123456
+        user: b5eae249161a92
+        pass: 0e28695b
         port: 3306
         charset: utf8
 
