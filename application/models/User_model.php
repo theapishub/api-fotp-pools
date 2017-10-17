@@ -14,13 +14,13 @@ class User_model extends CI_Model
             if (!is_null($id)){
                 $query = $this->db->select('*')->from('users')->where('user_id',$id)->get();
                 if($query->num_rows() == 1){
-                    return $query->row_array();
+                    return $query->custom_row_object(0, 'User_lib');
                 }
                 return null;
             }
             $query = $this->db->select('*')->from('users')->get();
             if($query->num_rows() > 0){
-                return $query->result_array();
+                return $query->custom_result_object('User_lib');
             }
             return null;
         }catch (Exception $e){

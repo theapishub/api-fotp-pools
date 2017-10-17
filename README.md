@@ -31,6 +31,13 @@ vendor/robmorgan/phinx/bin/phinx create NewMigrate
 seed:run -s 
 ```
 
+# Reset db
+```
+note: Remove db on production
+php vendor/robmorgan/phinx/bin/phinx status -e production
+php vendor/robmorgan/phinx/bin/phinx rollback -e production -t 0
+```
+
 # Running web server
 
 ```

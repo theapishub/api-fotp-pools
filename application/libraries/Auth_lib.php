@@ -14,6 +14,15 @@ class Auth_lib
     public function __construct()
     {}
 
+    public function updateAuth($auth_id, $user_id, $authorize_key, $refresh_key, $expire, $status){
+        $this->setAuthorizeId($auth_id);
+        $this->setUserId($user_id);
+        $this->setAuthorizeKey($authorize_key);
+        $this->setRefreshKey($refresh_key);
+        $this->setKeyExpire($expire);
+        $this->setStatus($status);
+    }
+
     public function newAuth($user_id, $authorize_key, $refresh_key, $expire, $status){
         $this->setUserId($user_id);
         $this->setAuthorizeKey($authorize_key);

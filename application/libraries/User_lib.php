@@ -28,6 +28,23 @@ class User_lib
         return $user;
     }
 
+
+    static function formatArrayUser(array  $users){
+        $arrUser = array();
+        foreach($users as $user):
+            $user->getUserId();
+            $user -> getUsername();
+            $user -> getEmail();
+            $user -> getFullname();
+            $user -> getCreated();
+            $user -> getUpdated();
+            unset($user->password);
+            unset($user->password_salt);
+            array_push($arrUser, $user);
+        endforeach;
+        return $arrUser;
+    }
+
     /**
      * @return mixed
      */

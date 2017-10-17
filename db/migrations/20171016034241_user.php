@@ -37,7 +37,7 @@ class User extends AbstractMigration
             ->addColumn('fullname', 'string', ['limit' => 60])
             ->addColumn('created', 'datetime')
             ->addColumn('updated', 'datetime', ['null' => true])
-            ->addIndex(['username', 'email'], ['unique' => true])
+            ->addIndex(['user_id', 'username', 'email'], ['unique' => true])
             ->create();
     }
 }
