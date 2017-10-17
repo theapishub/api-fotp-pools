@@ -39,6 +39,8 @@ Using the virtual host to run the api
 
 # Heroku
 
+https://api-fotp-pools.herokuapp.com/
+
 ```
 git push heroku master
 heroku run php vendor/bin/phinx status
