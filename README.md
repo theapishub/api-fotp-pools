@@ -55,4 +55,6 @@ http://apidocjs.com/
 
 ```
 npm install apidoc -g
+
+apidoc -i myapp/ -o apidoc/ -t apidoc-template/
 ```

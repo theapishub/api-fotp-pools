@@ -1,0 +1,7 @@
+{
+  "name": "api-fotp-pools",
+  "version": "0.0.1",
+  "description": "API FOTP Pools Documents",
+  "title": "API FOTP Pools",
+  "url" : "https://api-fotp-pools.herokuapp.com/api"
+}
