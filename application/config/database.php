@@ -76,20 +76,22 @@ $query_builder = TRUE;
 if( getenv("CLEARDB_DATABASE_URL") ){ // heroku
 	$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
-	$server = $url["host"];
+	$hostname = $url["host"];
 	$username = $url["user"];
 	$password = $url["pass"];
-	$db = substr($url["path"], 1);
+	$database = substr($url["path"], 1);
 }else{
-	$server = 'localhost';
+	$hostname = 'localhost';
 	$username = 'root';
 	$password = '';
-	$db = 'fotp_pools';	
+	$database= 'fotp_pools';	
 }
+
+print_r($hostname);
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => $server,
+	'hostname' => $hostname,
 	'username' => $username,
 	'password' => $password,
 	'database' => $database,
