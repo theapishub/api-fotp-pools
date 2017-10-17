@@ -8,7 +8,7 @@ class User_Model extends CI_Model
         parent::__construct();
     }
 
-    public function get($id)
+    public function get($id = null)
     {
         try{
             if (!is_null($id)){
