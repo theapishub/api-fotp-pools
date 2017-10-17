@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 if( getenv("CLEARDB_DATABASE_URL") ){ // heroku
 	$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-	print_r($url);
+	
 	$hostname = $url["host"];
 	$username = $url["user"];
 	$password = $url["pass"];
@@ -108,3 +108,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+print_r($db);exit();
