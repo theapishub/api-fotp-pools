@@ -73,16 +73,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+if( getenv("CLEARDB_DATABASE_URL") ){ // heroku
+	
+	$hostname = 'us-cdbr-iron-east-05.cleardb.net';
+	$database = 'heroku_35cdcdca339fb77';
+	$username = 'b5eae249161a92';
+	$password = '0e28695b';	
+}else{
+	$hostname = 'localhost';
+	$database= 'fotp_pools';
+	$username = 'root';
+	$password = '';	
+}
+
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'fotp_pools',
+	'hostname' => $hostname,
+	'username' => $username,
+	'password' => $password,
+	'database' => $database,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
+	'pconnect' => TRUE,
+	'db_debug' => TRUE,
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',

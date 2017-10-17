@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class My_Generation
+class My_generation
 {
     private $salt = 'f0tp-p00ls-@p1';
     private $author_key = '@uth0-key';

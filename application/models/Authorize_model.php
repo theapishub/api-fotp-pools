@@ -1,14 +1,14 @@
 <?php
 
-class Authorize_model extends CI_Model
+class Authorize_Model extends CI_Model
 {
+
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('user_model');
         $this->load->library('my_generation');
-        $this->load->library('auth_lib');
         $this->load->helper('email');
     }
 
@@ -18,8 +18,8 @@ class Authorize_model extends CI_Model
             $author_key = $author['tokenAuthor'];
             $refresh_key = $author['tokenReFresh'];
             $expire = $author['expireDate'];
-            $this->auth_lib->newAuth($user_id->user_id, $author_key, $refresh_key, $expire, $status = 1);
-            $this->db->insert('authorize',$this->auth_lib);
+            $authorization = new Authorization_Modal($user_id['user_id'], $author_key, $refresh_key, $expire);
+            $this->db->insert('authorize',$authorization);
             return null;
         }catch (Exception $e){
             return $e;
@@ -32,16 +32,19 @@ class Authorize_model extends CI_Model
             $today = strtotime(date('d-m-Y H:i:s'));
             if (!is_null($user_id)){
                 $query = $this->db->select('*')->from('authorize')->where(array(
-                    'user_id'=> $user_id->user_id
+                    'user_id'=> $user_id['user_id']
                 ))->get();
                 if($query->num_rows() == 1){
-                    $author = $query->custom_row_object(0,'Auth_lib');
-                    if(strtotime($author->key_expire) > $today){
-                        return $author;
-                    }else{
-
+                    $authorize = $query->row_array();
+                    $expireDate = strtotime($authorize['key_expire']);
+                    if($today>$expireDate){
+                        return null;
                     }
-                }else{
+                    else{
+                        return $authorize;
+                    }
+                }
+                else{
                     return null;
                 }
             }
@@ -57,15 +60,13 @@ class Authorize_model extends CI_Model
         try{
             if (!is_null($user_id)) {
                 $query = $this->db->select('*')->from('authorize')->where(array(
-                    'user_id' => $user_id->user_id
+                    'user_id' => $user_id['user_id']
                 ))->get();
-                if($query->num_rows() == 1) {
-                    return $query->custom_row_object(0, 'Auth_lib');
-                }
-                return null;
+
             }else{
                 return null;
             }
+            return null;
         }catch (Exception $e){
             return $e;
         }
@@ -74,5 +75,76 @@ class Authorize_model extends CI_Model
 
 class Authorization_Modal
 {
+    public $authorize_id;
+    public $user_id;
+    public $authorize_key;
+    public $refresh_key;
+    public $key_expire;
 
+    public function __construct($user_id, $authorize_key, $refresh_key, $expire)
+    {
+        $this->setUserId($user_id);
+        $this->setAuthorizeKey($authorize_key);
+        $this->setRefreshKey($refresh_key);
+        $this->setExpire($expire);
+    }
+
+    public function getAuthorizeId()
+    {
+        return $this->authorize_id;
+    }
+
+    public function setAuthorizeId($authorize_id)
+    {
+        $this->authorize_id = $authorize_id;
+    }
+
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+    }
+
+    public function getAuthorizeKey()
+    {
+        return $this->authorize_key;
+    }
+
+    public function setAuthorizeKey($authorize_key)
+    {
+        $this->authorize_key = $authorize_key;
+    }
+
+    public function getRefreshKey()
+    {
+        return $this->refresh_key;
+    }
+
+    public function setRefreshKey($refresh_key)
+    {
+        $this->refresh_key = $refresh_key;
+    }
+
+    public function getExpire()
+    {
+        return $this->key_expire;
+    }
+
+    public function setExpire($key_expire)
+    {
+        $this->key_expire = $key_expire;
+    }
+
+    static function formatAuthor(Authorization_Modal $author){
+        $author -> getAuthorizeKey();
+        $author -> getRefreshKey();
+        $author -> getExpire();
+        unset($author->authorize_id);
+        unset($author->user_id);
+        return $author;
+    }
 }

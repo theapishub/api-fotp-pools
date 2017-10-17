@@ -36,3 +36,25 @@ seed:run -s
 ```
 Using the virtual host to run the api
 ```
+
+# Heroku
+
+https://api-fotp-pools.herokuapp.com/
+
+```
+heroku login
+heroku git:remote -a api-fotp-pools
+git push heroku master
+heroku run php vendor/bin/phinx status
+heroku run php vendor/bin/phinx migrate
+```
+
+# API Doc
+
+http://apidocjs.com/
+
+```
+npm install apidoc -g
+
+apidoc -i myapp/ -o apidoc/ -t apidoc-template/
+```
