@@ -36,3 +36,9 @@ seed:run -s
 ```
 Using the virtual host to run the api
 ```
+
+# Heroku
+
+```
+git push heroku master
+```
