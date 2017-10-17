@@ -48,3 +48,11 @@ git push heroku master
 heroku run php vendor/bin/phinx status
 heroku run php vendor/bin/phinx migrate
 ```
+
+# API Doc
+
+http://apidocjs.com/
+
+```
+npm install apidoc -g
+```
