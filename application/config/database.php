@@ -72,9 +72,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
-$cleardb_url = getenv("CLEARDB_DATABASE_URL")
+$cleardb_url = getenv("CLEARDB_DATABASE_URL");
 if( $cleardb_url ){ // heroku
-
 	$hostname = $cleardb_url['host'];
 	$database = substr($cleardb_url['path'],1);
 	$username = $cleardb_url['user'];
