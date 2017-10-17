@@ -4,13 +4,13 @@ paths:
 
 environments:
     default_migration_table: phinxlog
-    default_database: production
+    default_database: development
     production:
         adapter: mysql
-        host: us-cdbr-iron-east-05.cleardb.net
-        name: heroku_35cdcdca339fb77
-        user: b5eae249161a92
-        pass: 0e28695b
+        host: localhost
+        name: fotp_pools
+        user: root
+        pass: ''
         port: 3306
         charset: utf8
     development:

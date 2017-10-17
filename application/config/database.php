@@ -72,13 +72,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
+$cleardb_url = getenv("CLEARDB_DATABASE_URL")
+if( $cleardb_url ){ // heroku
 
-if( getenv("CLEARDB_DATABASE_URL") ){ // heroku
-	
-	$hostname = 'us-cdbr-iron-east-05.cleardb.net';
-	$database = 'heroku_35cdcdca339fb77';
-	$username = 'b5eae249161a92';
-	$password = getenv('CLEARDB_DATABASE_PASSWORD');	
+	$hostname = $cleardb_url['host'];
+	$database = substr($cleardb_url['path'],1);
+	$username = $cleardb_url['user'];
+	$password = $cleardb_url['pass'];	
 }else{
 	$hostname = 'localhost';
 	$database= 'fotp_pools';
