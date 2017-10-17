@@ -35,6 +35,7 @@ class Authorize extends AbstractMigration
             ->addColumn('authorize_key', 'string')
             ->addColumn('refresh_key', 'string')
             ->addColumn('key_expire', 'string')
+            ->addColumn('status','boolean',['null' => false])
             ->addIndex(['authorize_key', 'refresh_key'], ['unique' => true])
             ->addForeignKey('user_id', 'users', 'user_id', array('delete'=> 'NO_ACTION', 'update'=> 'NO_ACTION'))
             ->create();

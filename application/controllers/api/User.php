@@ -11,6 +11,8 @@ class User extends REST_Controller
         $this->load->model('user_model');
         $this->load->model('authorize_model');
         $this->load->library('my_generation');
+        $this->load->library('user_lib');
+        $this->load->library('auth_lib');
         $this->load->helper('email');
     }
 
@@ -18,7 +20,12 @@ class User extends REST_Controller
         $user = $this->user_model->get();
         if(!is_null($user)){
             // Set the response and exit
-            $this->response($user, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            $this->response([
+                'status' => TRUE,
+                'data' => $user,
+                'message' => 'Successful'
+            ],
+                REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }else{
             $this->response([
                 'status' => FALSE,
@@ -33,7 +40,11 @@ class User extends REST_Controller
             $user = $this->user_model->get($id);
             if(!is_null($user)){
                 // Set the response and exit
-                $this->response($user, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+                $this->response([
+                    'status' => TRUE,
+                    'data' => $user,
+                    'message' => 'Successful'
+                ], REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
             }else{
                 $this->response([
                     'status' => FALSE,
@@ -51,9 +62,9 @@ class User extends REST_Controller
     public function user_delete_get($id){
         $id = (int)$id;
         if(!is_null($id) && ($id > 0)){
-            $user_delete = $this->user_model->delete($id);
+            $this->user_model->delete($id);
             $this->response([
-                'status' => $user_delete,
+                'status' => TRUE,
                 'message' => 'The user were deleted',
             ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
         }else{
@@ -68,22 +79,34 @@ class User extends REST_Controller
         if(filter_var($email,FILTER_VALIDATE_EMAIL)){
             $passwd = $this->my_generation->generatePasswordSalt($email, $passwd);
             $user_id = $this->user_model->login($email, $passwd);
-            if(!is_null($user_id)){
-                //$user_id = UserModal::formatUser($user_id);
+            if($user_id){
+                $user_id = User_lib::formatUser($user_id);
                 $ckAuthorization = $this->authorize_model->checkAuthorizationNotExpire($user_id);
                 if($ckAuthorization){
                     $this->response([
+                        'status' => TRUE,
                         'data' =>
                             array(
                                 'info' => $user_id,
-                                'authorizationInfo' => $ckAuthorization//Authorization_Modal::formatAuthor($ckAuthorization),
+                                'authorizationInfo' => Auth_lib::formatAuthor($ckAuthorization),
                             ),
-                        'message' => 'No user were found',
+                        'message' => 'Successful',
                     ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
                 }else{
                     $author = $this->my_generation->generateAuthorizationKey($user_id);
                     $this->authorize_model->createAuthorization($user_id,$author);
-
+                    $authorization = $this->authorize_model->getAuthorization($user_id);
+                    if($authorization){
+                        $this->response([
+                            'status' => TRUE,
+                            'data' =>
+                                array(
+                                    'info' => $user_id,
+                                    'authorizationInfo' => Auth_lib::formatAuthor($ckAuthorization),
+                                ),
+                            'message' => 'Successful',
+                        ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
+                    }
                 }
             }
             else{

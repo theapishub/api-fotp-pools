@@ -1,70 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User_Model extends CI_Model
+class User_lib
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function get($id)
-    {
-        try{
-            if (!is_null($id)){
-                $query = $this->db->select('*')->from('users')->where('user_id',$id)->get();
-                if($query->num_rows() == 1){
-                    return $query->row_array();
-                }
-                return null;
-            }
-            $query = $this->db->select('*')->from('users')->get();
-            if($query->num_rows() > 0){
-                return $query->result_array();
-            }
-            return null;
-        }catch (Exception $e){
-            return $e;
-        }
-
-    }
-
-    public function delete($id)
-    {
-        try{
-            if (!is_null($id)){
-                $this->db->delete('users', array('user_id' => $id));
-            }
-            return $this->status = 'Successful';
-
-        }catch (Exception $e)
-        {
-            return $e;
-        }
-    }
-
-    public function login($email,$password)
-    {
-        try{
-            if (!is_null($email) && !is_null($password)){
-                $query = $this->db->select('*')->from('users')->where(array(
-                    'email'=> $email,
-                    'password_salt'=>$password
-                    ))->get();
-                if($query->num_rows() == 1){
-                    return $query->row_array();
-                }
-            }
-            return null;
-
-        }catch (Exception $e)
-        {
-            return $e;
-        }
-    }
-}
-
-class UserModal {
     public $user_id;
     public $username;
     public $password;
@@ -79,7 +16,7 @@ class UserModal {
 
     }
 
-    static function formatUser(UserModal $user){
+    static function formatUser(User_lib $user){
         $user->getUserId();
         $user -> getUsername();
         $user -> getEmail();
@@ -218,6 +155,4 @@ class UserModal {
     {
         $this->updated = $updated;
     }
-
-
 }

@@ -19,7 +19,7 @@ class My_Generation
 
     public function generateAuthorizationKey($user_id){
         $today = date('d-m-Y H:i:s');
-        $user_id = (int)$user_id['user_id'];
+        $user_id = (int)$user_id->user_id;
         $time = strtotime($today);;
         $tokenAuthor = sha1($this->salt.$this->author_key.$time);
         $tokenReFresh = sha1($this->salt.$this->refresh_key.$time);
