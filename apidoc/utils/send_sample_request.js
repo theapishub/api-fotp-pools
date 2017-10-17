@@ -23,7 +23,7 @@ define([
           var group = $root.data("group");
           var name = $root.data("name");
           var version = $root.data("version");
-          clearSampleRequest(group, name, version);          
+          clearSampleRequest(group, name, version);
       });
   }; // initDynamic
 

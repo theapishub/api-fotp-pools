@@ -34,6 +34,18 @@ class User extends REST_Controller
         }
     }
 
+
+    /**
+     * @api {get} /user/:id Request User List
+     * @apiName GetUserInfo
+     * @apiGroup User
+     *
+     * @apiParam {String} id User's id
+     *
+     * @apiSuccess {String} app_name Application Name.
+     * @apiSuccess {String} api_version Api Version.
+     * @apiSuccess {String} api_doc Api Document Link.
+     */
     public function user_get($id){
         $id = (int)$id;
         if(!is_null($id) && ($id > 0)){
