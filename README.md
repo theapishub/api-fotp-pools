@@ -41,4 +41,6 @@ Using the virtual host to run the api
 
 ```
 git push heroku master
+heroku run php vendor/bin/phinx status
+heroku run php vendor/bin/phinx migrate
 ```
