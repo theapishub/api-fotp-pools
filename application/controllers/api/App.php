@@ -29,6 +29,6 @@ class App extends REST_Controller
             'api_doc' => base_url() . 'apidoc'
         );
         // response
-        $this->response($user, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code        
+        $this->response($api_data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code        
     }
 }
