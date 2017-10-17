@@ -42,6 +42,8 @@ Using the virtual host to run the api
 https://api-fotp-pools.herokuapp.com/
 
 ```
+heroku login
+heroku git:remote -a api-fotp-pools
 git push heroku master
 heroku run php vendor/bin/phinx status
 heroku run php vendor/bin/phinx migrate
