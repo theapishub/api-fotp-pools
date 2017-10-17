@@ -78,7 +78,7 @@ if( getenv("CLEARDB_DATABASE_URL") ){ // heroku
 	$hostname = 'us-cdbr-iron-east-05.cleardb.net';
 	$database = 'heroku_35cdcdca339fb77';
 	$username = 'b5eae249161a92';
-	$password = '0e28695b';	
+	$password = getenv('CLEARDB_DATABASE_PASSWORD');	
 }else{
 	$hostname = 'localhost';
 	$database= 'fotp_pools';
