@@ -13,7 +13,7 @@ class My_generation
     }
 
     public function generatePasswordSalt($email,$password){
-        $password = sha1($email.$this->salt).$password;
+        $password = sha1($email.$this->salt.$password);
         return hash('sha256',$password);
     }
 

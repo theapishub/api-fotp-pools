@@ -58,8 +58,8 @@ $route['api/app'] = 'api/app';
 
 
 // Routes for User
-$route['api/user/list/(:any)'] = 'api/user/list/$1';
-$route['api/user/(:num)/(:any)'] = 'api/user/user/$1/$2';
-$route['api/user/update/(:num)/(:any)'] = 'api/user/update/$1/$2';
-$route['api/user/delete/(:num)/(:any)'] = 'api/user/user_delete/$1/$2';
-$route['api/user/login/(:any)/(:any)'] = 'api/user/user_login/$1/$2';
+$route['api/user/list/(:any)']['get'] = 'api/user/list/$1';
+$route['api/user']['post'] = 'api/user/user';
+$route['api/user/delete']['post'] = 'api/user/user_delete';
+$route['api/user/login']['post'] = 'api/user/user_login';
+$route['api/user/add']['post'] = 'api/user/user_add';

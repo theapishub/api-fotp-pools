@@ -24,9 +24,16 @@ class User extends REST_Controller
      *
      * @apiParam {String} token User's token
      *
-     * @apiSuccess {String} app_name Application Name.
-     * @apiSuccess {String} api_version Api Version.
-     * @apiSuccess {String} api_doc Api Document Link.
+     * @apiSuccess {Boolean} status Status response.
+     * @apiSuccess {Object[]} data       Data of user.
+     * @apiSuccess {Object}   data.info   Users info.
+     * @apiSuccess {String}   data.info.user_id User id.
+     * @apiSuccess {String}   data.info.username User name.
+     * @apiSuccess {String}   data.info.email User email.
+     * @apiSuccess {String}   data.info.fullname User full name.
+     * @apiSuccess {String}   data.info.created User date created.
+     * @apiSuccess {String}   data.info.updated User date updated.
+     * @apiSuccess {String} message Message of response.
      */
     public function list_get($token){
         if (!is_null($token)){
@@ -61,7 +68,7 @@ class User extends REST_Controller
 
 
     /**
-     * @api {post} api/user/(:id)/(:token) Request User Infor
+     * @api {post} api/user Request User Infor
      * @apiName GetUserInfo
      * @apiGroup User
      *
@@ -79,8 +86,9 @@ class User extends REST_Controller
      * @apiSuccess {String}   data.info.updated User date updated.
      * @apiSuccess {String} message Message of response.
      */
-    public function user_get($id, $token){
-        $id = (int)$id;
+    public function user_post(){
+        $id = (int)$this->post('user_id');
+        $token = $this->post('token');
         if (!is_null($token)) {
             $isToken = $this->authorize_model->ckToken($token);
             if ($isToken) {
@@ -120,18 +128,20 @@ class User extends REST_Controller
     }
 
     /**
-     * @api {post} api/user/delete/(:id)/(:token) Request User Delete
+     * @api {post} api/user/delete Request User Delete
      * @apiName PostUserDelete
      * @apiGroup User
      *
-     * @apiParam {String} id User's id
+     * @apiParam {String} user_id User's id
      * @apiParam {String} token User's token
      *
      * @apiSuccess {Boolean} status Status response.
      * @apiSuccess {String} message Message of response.
      */
-    public function user_delete_get($id, $token){
-        $id = (int)$id;
+    public function user_delete_post(){
+
+        $id = (int)$this->post('user_id');
+        $token = $this->post('token');
 
         if (!is_null($token)) {
             $isToken = $this->authorize_model->ckToken($token);
@@ -161,7 +171,7 @@ class User extends REST_Controller
     }
 
     /**
-     * @api {post} api/user/login/(:email)/(:password) Request User Login
+     * @api {post} api/user/login Request User Login
      * @apiName PostUserLogin
      * @apiGroup User
      *
@@ -185,53 +195,83 @@ class User extends REST_Controller
      * @apiSuccess {String} message Message of response.
      *
      */
-    public function user_login_get($email, $passwd){
-        if(filter_var($email,FILTER_VALIDATE_EMAIL)){
-            $passwd = $this->my_generation->generatePasswordSalt($email, $passwd);
-            $user = $this->user_model->login($email, $passwd);
-            if($user){
-                $user = User_lib::formatUser($user);
-                $ckAuthorization = $this->authorize_model->checkAuthorizationNotExpire($user);
-                if($ckAuthorization){
-                    $this->response([
-                        'status' => TRUE,
-                        'data' =>
-                            array(
-                                'info' => $user,
-                                'authorizationInfo' => Auth_lib::formatAuthor($ckAuthorization)
-                            ),
-                        'message' => $this->message->SUCCESSFUL
-                    ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
-                }else{
-                    $author = $this->my_generation->generateAuthorizationKey($user);
-                    $this->authorize_model->createAuthorization($user,$author);
-                    $authorization = $this->authorize_model->getAuthorization($user);
-                    if($authorization){
+    public function user_login_post(){
+        $email = $this->post('email');
+        $passwd = $this->post('password');
+        if(!is_null($email) && !is_null($passwd)){
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $passwd = $this->my_generation->generatePasswordSalt($email, $passwd);
+                $user = $this->user_model->login($email, $passwd);
+                if ($user) {
+                    $user = User_lib::formatUser($user);
+                    $ckAuthorization = $this->authorize_model->checkAuthorizationNotExpire($user);
+                    if ($ckAuthorization) {
                         $this->response([
                             'status' => TRUE,
                             'data' =>
                                 array(
                                     'info' => $user,
-                                    'authorizationInfo' => Auth_lib::formatAuthor($authorization)
+                                    'authorizationInfo' => Auth_lib::formatAuthor($ckAuthorization)
                                 ),
                             'message' => $this->message->SUCCESSFUL
                         ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
+                    } else {
+                        $author = $this->my_generation->generateAuthorizationKey($user);
+                        $this->authorize_model->createAuthorization($user, $author);
+                        $authorization = $this->authorize_model->getAuthorization($user);
+                        if ($authorization) {
+                            $this->response([
+                                'status' => TRUE,
+                                'data' =>
+                                    array(
+                                        'info' => $user,
+                                        'authorizationInfo' => Auth_lib::formatAuthor($authorization)
+                                    ),
+                                'message' => $this->message->SUCCESSFUL
+                            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
+                        }
                     }
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => $this->message->NO_USER_WERE_FOUND
+                    ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
                 }
+
+            } else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => $this->message->EMAIL_NOT_VALID
+                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            }
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => $this->message->LOGIN_NULL
+        ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+    }
+
+    public function user_add_post(){
+
+        $username = $this->post('username');
+        $email = $this->post('email');
+        $password = $this->post('password');
+        $fullname = $this->post('fullname');
+
+        if (!is_null($username) && !is_null($email) && !is_null($password) && !is_null($fullname)){
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
             }
             else{
                 $this->response([
                     'status' => FALSE,
-                    'message' => $this->message->NO_USER_WERE_FOUND
+                    'message' => $this->message->EMAIL_NOT_VALID
                 ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
             }
-
-        }else{
-            $this->response([
-                'status' => FALSE,
-                'message' => $this->message->EMAIL_NOT_VALID
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
-
+        $this->response([
+            'status' => FALSE,
+            'message' => $this->message->ADD_USER_FAIL
+        ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
     }
 }

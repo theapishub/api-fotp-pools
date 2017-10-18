@@ -38,7 +38,7 @@
   },
   {
     "type": "post",
-    "url": "api/user/(:id)/(:token)",
+    "url": "api/user",
     "title": "Request User Infor",
     "name": "GetUserInfo",
     "group": "User",
@@ -166,24 +166,73 @@
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "String",
+            "type": "Boolean",
             "optional": false,
-            "field": "app_name",
-            "description": "<p>Application Name.</p>"
+            "field": "status",
+            "description": "<p>Status response.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Data of user.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data.info",
+            "description": "<p>Users info.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "api_version",
-            "description": "<p>Api Version.</p>"
+            "field": "data.info.user_id",
+            "description": "<p>User id.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "api_doc",
-            "description": "<p>Api Document Link.</p>"
+            "field": "data.info.username",
+            "description": "<p>User name.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.info.email",
+            "description": "<p>User email.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.info.fullname",
+            "description": "<p>User full name.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.info.created",
+            "description": "<p>User date created.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.info.updated",
+            "description": "<p>User date updated.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Message of response.</p>"
           }
         ]
       }
@@ -194,7 +243,7 @@
   },
   {
     "type": "post",
-    "url": "api/user/delete/(:id)/(:token)",
+    "url": "api/user/delete",
     "title": "Request User Delete",
     "name": "PostUserDelete",
     "group": "User",
@@ -205,7 +254,7 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "id",
+            "field": "user_id",
             "description": "<p>User's id</p>"
           },
           {
@@ -244,7 +293,7 @@
   },
   {
     "type": "post",
-    "url": "api/user/login/(:email)/(:password)",
+    "url": "api/user/login",
     "title": "Request User Login",
     "name": "PostUserLogin",
     "group": "User",
