@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth_lib
 {
@@ -14,7 +15,7 @@ class Auth_lib
     public function __construct()
     {}
 
-    public function updateAuth($auth_id, $user_id, $authorize_key, $refresh_key, $expire, $status){
+    public function updateAuth($auth_id, $user_id, $authorize_key, $refresh_key, $expire, $status = 1){
         $this->setAuthorizeId($auth_id);
         $this->setUserId($user_id);
         $this->setAuthorizeKey($authorize_key);
@@ -23,7 +24,7 @@ class Auth_lib
         $this->setStatus($status);
     }
 
-    public function newAuth($user_id, $authorize_key, $refresh_key, $expire, $status){
+    public function newAuth($user_id, $authorize_key, $refresh_key, $expire, $status = 1){
         $this->setUserId($user_id);
         $this->setAuthorizeKey($authorize_key);
         $this->setRefreshKey($refresh_key);

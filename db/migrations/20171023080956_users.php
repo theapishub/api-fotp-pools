@@ -3,7 +3,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class User extends AbstractMigration
+class Users extends AbstractMigration
 {
     /**
      * Change Method.
@@ -30,14 +30,16 @@ class User extends AbstractMigration
     {
         $users = $this->table('users',['id' => false, 'primary_key' => ['user_id']]);
         $users->addColumn('user_id', 'integer', ['identity' =>true])
-            ->addColumn('username', 'string', ['limit' => 20])
-            ->addColumn('password', 'string', ['limit' => 100])
-            ->addColumn('password_salt', 'string', ['limit' => 100])
-            ->addColumn('email', 'string', ['limit' => 100])
-            ->addColumn('fullname', 'string', ['limit' => 60])
+            ->addColumn('username', 'string', ['limit' => 255])
+            ->addColumn('password', 'string', ['limit' => 255])
+            ->addColumn('password_salt', 'string', ['limit' => 255])
+            ->addColumn('email', 'string', ['limit' => 255])
+            ->addColumn('fullname', 'string', ['limit' => 255])
             ->addColumn('created', 'datetime')
             ->addColumn('updated', 'datetime', ['null' => true])
-            ->addIndex(['user_id', 'username', 'email'], ['unique' => true])
+            ->addColumn('status', 'integer')
+            ->addIndex(['status', 'user_id', 'username', 'email'], ['unique' => true])
+            ->addForeignKey('status', 'role', 'status', array('delete' => 'NO_ACTION', 'update' => 'NO_ACTION'))
             ->create();
     }
 }

@@ -10,6 +10,7 @@ class User_lib
     public $fullname;
     public $created;
     public $updated;
+    public $status;
 
     public function __construct()
     {
@@ -38,11 +39,25 @@ class User_lib
             $user -> getFullname();
             $user -> getCreated();
             $user -> getUpdated();
+            $user -> getStatus();
             unset($user->password);
             unset($user->password_salt);
             array_push($arrUser, $user);
         endforeach;
         return $arrUser;
+    }
+
+
+    public function newUser($username, $password, $passwordSalt,$email, $fullname, $created, $status = 1){
+        $this->setUsername($username);
+        $this->setPassword($password);
+        $this->setEmail($email);
+        $this->setFullname($fullname);
+        $this->setPasswordSalt($passwordSalt);
+        $this->setCreated($created);
+        $this->setUpdated($created);
+        $this->setStatus($status);
+        unset($this->user_id);
     }
 
     /**
@@ -171,5 +186,21 @@ class User_lib
     public function setUpdated($updated)
     {
         $this->updated = $updated;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 }

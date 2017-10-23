@@ -3,7 +3,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class AddUniqueAuthor extends AbstractMigration
+class Role extends AbstractMigration
 {
     /**
      * Change Method.
@@ -28,15 +28,12 @@ class AddUniqueAuthor extends AbstractMigration
      */
     public function change()
     {
-
-    }
-
-    public function up()
-    {
-        $table = $this->table('authorize');
-        $table
-            ->addIndex(['user_id'], [
-                'unique' => true])
-            ->update();
+        $role = $this->table('role', ['id'=> false, 'primary_key' => ['role_id']]);
+        $role
+            ->addColumn('role_id', 'integer',['identity' =>true])
+            ->addColumn('status','integer',['null' => false])
+            ->addColumn('role_message', 'string')
+            ->addIndex(['status', 'role_id'], ['unique' => true])
+            ->create();
     }
 }

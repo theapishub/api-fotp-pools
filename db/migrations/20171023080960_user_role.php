@@ -3,7 +3,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class Role extends AbstractMigration
+class UserRole extends AbstractMigration
 {
     /**
      * Change Method.
@@ -26,15 +26,20 @@ class Role extends AbstractMigration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function change()
+
+    public function up()
     {
-        $role = $this->table('role', ['id'=> false, 'primary_key' => ['role_id']]);
-        $role
-            ->addColumn('role_id', 'integer',['identity' =>true])
-            ->addColumn('user_id', 'integer')
-            ->addColumn('status','boolean',['null' => false])
-            ->addIndex(['role_id', 'user_id'], ['unique' => true])
-            ->addForeignKey('user_id', 'users', 'user_id', array('delete'=> 'NO_ACTION', 'update'=> 'NO_ACTION'))
-            ->create();
+        $admin = [
+        'status' => 0,
+        'role_message' => 'Admin'
+        ];
+        $user = [
+            'status' => 1,
+            'role_message' => 'User'
+        ];
+        $table = $this->table('role');
+        $table->insert($admin);
+        $table->insert($user);
+        $table->saveData();
     }
 }

@@ -26,6 +26,7 @@ class UserSeeder extends AbstractSeed
                 'fullname'    => $faker->name,
                 'created'       => date('Y-m-d H:i:s'),
                 'updated'       => date('Y-m-d H:i:s'),
+                'status'       => 1,
             ];
         }
 

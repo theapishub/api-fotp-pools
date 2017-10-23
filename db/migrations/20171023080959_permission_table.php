@@ -3,7 +3,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class Authorize extends AbstractMigration
+class PermissionTable extends AbstractMigration
 {
     /**
      * Change Method.
@@ -28,16 +28,13 @@ class Authorize extends AbstractMigration
      */
     public function change()
     {
-        $session = $this->table('authorize', ['id'=> false, 'primary_key' => ['authorize_id']]);
-        $session
-            ->addColumn('authorize_id', 'integer',['identity' =>true])
-            ->addColumn('user_id', 'integer')
-            ->addColumn('authorize_key', 'string')
-            ->addColumn('refresh_key', 'string')
-            ->addColumn('key_expire', 'string')
-            ->addColumn('status','boolean',['null' => false])
-            ->addIndex(['authorize_key', 'refresh_key'], ['unique' => true])
-            ->addForeignKey('user_id', 'users', 'user_id', array('delete'=> 'NO_ACTION', 'update'=> 'NO_ACTION'))
+        $users = $this->table('permission', ['id' => false, 'primary_key' => ['permission_id']]);
+        $users->addColumn('permission_id', 'integer', ['identity' => true])
+            ->addColumn('status', 'integer')
+            ->addColumn('permission_status', 'integer')
+            ->addColumn('permission_des', 'string')
+            ->addIndex(['permission_id','permission_status'], ['unique' => true])
+            ->addForeignKey('status', 'role', 'status', array('delete' => 'NO_ACTION', 'update' => 'NO_ACTION'))
             ->create();
     }
 }
