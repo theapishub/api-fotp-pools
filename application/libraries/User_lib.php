@@ -26,6 +26,22 @@ class User_lib
         $user -> getUpdated();
         unset($user->password);
         unset($user->password_salt);
+        unset($user->updated);
+        unset($user->status);
+        return $user;
+    }
+
+    static function formatUserUpdate(User_lib $user){
+        $user->getUserId();
+        $user -> getUsername();
+        $user -> getEmail();
+        $user -> getFullname();
+        $user -> getCreated();
+        $user -> getUpdated();
+        unset($user->password);
+        unset($user->password_salt);
+        unset($user->created);
+        unset($user->status);
         return $user;
     }
 
@@ -42,6 +58,8 @@ class User_lib
             $user -> getStatus();
             unset($user->password);
             unset($user->password_salt);
+            unset($user->updated);
+            unset($user->status);
             array_push($arrUser, $user);
         endforeach;
         return $arrUser;
@@ -55,9 +73,21 @@ class User_lib
         $this->setFullname($fullname);
         $this->setPasswordSalt($passwordSalt);
         $this->setCreated($created);
-        $this->setUpdated($created);
         $this->setStatus($status);
         unset($this->user_id);
+        unset($this->updated);
+    }
+
+    public function updateUser($username, $password, $passwordSalt,$email, $fullname, $updated, $status = 1){
+        $this->setUsername($username);
+        $this->setPassword($password);
+        $this->setEmail($email);
+        $this->setFullname($fullname);
+        $this->setPasswordSalt($passwordSalt);
+        $this->setUpdated($updated);
+        $this->setStatus($status);
+        unset($this->user_id);
+        unset($this->created);
     }
 
     /**

@@ -8,11 +8,12 @@ class User_model extends CI_Model
     {
         parent::__construct();
         $this->load->library('User_lib');
+        $this->load->library('my_const');
         $this->load->library('message');
         $this->load->library('my_generation');
     }
 
-    public function get($id = null)
+    public function get($id = null ,$page = null)
     {
         try{
             if (!is_null($id)):
@@ -22,6 +23,9 @@ class User_model extends CI_Model
                 endif;
                 return null;
             endif;
+            $limit = My_const::LIMIT_PER_PAGE;
+            $offset = (!is_null($page) && $page>1) ? ($page - 1) * $limit : 0;
+            $this->db->limit($limit, $offset);
             $query = $this->db->select('*')->from('users')->get();
             if($query->num_rows() > 0):
                 return $query->custom_result_object('User_lib');
@@ -30,6 +34,19 @@ class User_model extends CI_Model
         }catch (Exception $e){
             return $e->getMessage();
         }
+    }
+
+    public function find_user($email){
+        $query = $this->db->select('*')->from('users')->where('email',$email)->get();
+        if($query->num_rows() == 1):
+            return $query->custom_row_object(0, 'User_lib');
+        endif;
+        return null;
+    }
+
+    public function get_total()
+    {
+        return $this->db->count_all("users");
     }
 
     public function delete($id)
@@ -75,22 +92,48 @@ class User_model extends CI_Model
         try{
             $this->user_lib->newUser($username, $password, $passwordSalt, $email, $fullname, $created);
             $this->db->insert('users', $this->user_lib);
-            return null;
         }catch (Exception $e){
             return $e->getMessage();
         }
     }
 
-
-    public function ckUserExist($email, $username){
+    public function update($user_id, $username, $password, $passwordSalt, $email, $fullname, $updated){
         try{
-            $queryEmail = $this->db->select('*')->from('users')->where(array(
-                'email' => $email
-            ))->get();
+            $this->user_lib->updateUser($username, $password, $passwordSalt, $email, $fullname, $updated);
+            $isUserExist = $this->ckUserExist($email,$username,$user_id);
+            if(is_null($isUserExist)):
+                $this->db->where('user_id', $user_id);
+                $this->db->update('users', $this->user_lib);
+                return $this->user_lib;
+            endif;
+            return $isUserExist;
+        }catch (Exception $e){
+            return $e->getMessage();
+        }
+    }
 
-            $queryUserName = $this->db->select('*')->from('users')->where(array(
-                'username' => $username
-            ))->get();
+    public function ckUserExist($email, $username, $except = null){
+        try{
+
+            if(!is_null($except)):
+                $this->db->where('user_id !=', $except);
+                $queryEmail = $this->db->select('*')->from('users')->where(array(
+                    'email' => $email
+                ))->get();
+
+                $this->db->where('user_id !=', $except);
+                $queryUserName = $this->db->select('*')->from('users')->where(array(
+                    'username' => $username
+                ))->get();
+            else :
+                $queryEmail = $this->db->select('*')->from('users')->where(array(
+                    'email' => $email
+                ))->get();
+
+                $queryUserName = $this->db->select('*')->from('users')->where(array(
+                    'username' => $username
+                ))->get();
+             endif;
 
             if ($queryEmail->num_rows() == 1) :
                 $this->message->message_response = [

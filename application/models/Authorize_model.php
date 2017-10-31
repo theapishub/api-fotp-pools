@@ -77,21 +77,18 @@ class Authorize_model extends CI_Model
                     $this->message->message_response = [
                         'message' => Message::TOKEN_OK,
                         'status' => true,
-                        'isExpire' => false
                     ];
                     return $this->message->message_response;
                 endif;
                 $this->message->message_response = [
                     'message' => Message::TOKEN_EXPIRED,
-                    'status' => false,
-                    'isExpire' => true
+                    'status' => false
                 ];
                 return $this->message->message_response;
             endif;
             $this->message->message_response = [
                 'message' => Message::NO_TOKEN_WERE_FOUND,
-                'status' => false,
-                'isExpire' => null
+                'status' => false
             ];
             return $this->message->message_response;
         }catch (Exception $e){

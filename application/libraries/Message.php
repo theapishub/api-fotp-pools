@@ -36,4 +36,6 @@ class Message
     const NO_TOKEN = "Token were empty";
 
     const PERMIT_ADMIN = "You need Admin permission";
+
+    const UPDATE_SELF = "You just update for your self or you need Admin permission";
 }

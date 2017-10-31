@@ -37,8 +37,8 @@
     "groupTitle": "App"
   },
   {
-    "type": "post",
-    "url": "/user",
+    "type": "get",
+    "url": "/user-info",
     "title": "Request User Info",
     "name": "GetUserInfo",
     "group": "User",
@@ -49,7 +49,7 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "user_id",
+            "field": "id",
             "description": "<p>User's id</p>"
           },
           {
@@ -67,73 +67,52 @@
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Boolean",
-            "optional": false,
-            "field": "status",
-            "description": "<p>Status response.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object[]",
-            "optional": false,
-            "field": "data",
-            "description": "<p>Data of user.</p>"
-          },
-          {
-            "group": "Success 200",
             "type": "Object",
             "optional": false,
-            "field": "data.info",
-            "description": "<p>Users info.</p>"
+            "field": "user",
+            "description": "<p>Users object.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "data.info.user_id",
+            "field": "user.user_id",
             "description": "<p>User id.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "data.info.username",
+            "field": "user.username",
             "description": "<p>User name.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "data.info.email",
+            "field": "user.email",
             "description": "<p>User email.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "data.info.fullname",
+            "field": "user.fullname",
             "description": "<p>User full name.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "data.info.created",
+            "field": "user.created",
             "description": "<p>User date created.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "data.info.updated",
+            "field": "user.updated",
             "description": "<p>User date updated.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Message of response.</p>"
           }
         ]
       }
@@ -157,6 +136,13 @@
             "optional": false,
             "field": "token",
             "description": "<p>User's token</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "page",
+            "description": "<p>of list User</p>"
           }
         ]
       }
@@ -166,10 +152,31 @@
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Boolean",
+            "type": "Number",
             "optional": false,
-            "field": "status",
-            "description": "<p>Status response.</p>"
+            "field": "page",
+            "description": "<p>page of list User.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "per_page",
+            "description": "<p>number of record per page.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "total",
+            "description": "<p>total User.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "total_pages",
+            "description": "<p>total page User.</p>"
           },
           {
             "group": "Success 200",
@@ -226,13 +233,6 @@
             "optional": false,
             "field": "data.info.updated",
             "description": "<p>User date updated.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Message of response.</p>"
           }
         ]
       }
@@ -245,7 +245,7 @@
     "type": "post",
     "url": "/user/add",
     "title": "Request User Add New",
-    "name": "PostNewUser",
+    "name": "PostAddUser",
     "group": "User",
     "parameter": {
       "fields": {
@@ -290,20 +290,13 @@
     },
     "success": {
       "fields": {
-        "Success 200": [
+        "201": [
           {
-            "group": "Success 200",
-            "type": "Boolean",
-            "optional": false,
-            "field": "status",
-            "description": "<p>Status response.</p>"
-          },
-          {
-            "group": "Success 200",
+            "group": "201",
             "type": "String",
             "optional": false,
-            "field": "message",
-            "description": "<p>Message of response.</p>"
+            "field": "User",
+            "description": "<p>were created.</p>"
           }
         ]
       }
@@ -357,6 +350,98 @@
   },
   {
     "type": "post",
+    "url": "/user/update",
+    "title": "Request User Update",
+    "name": "PostUpdateUser",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>User's name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>User's email</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>User's password</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "fullname",
+            "description": "<p>User's full name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>User's token</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "user",
+            "description": "<p>Users object.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.username",
+            "description": "<p>User name.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.email",
+            "description": "<p>User email.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.fullname",
+            "description": "<p>User full name.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.updated",
+            "description": "<p>User date updated.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "application/controllers/api/User.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
     "url": "/user/delete",
     "title": "Request User Delete",
     "name": "PostUserDelete",
@@ -383,20 +468,12 @@
     },
     "success": {
       "fields": {
-        "Success 200": [
+        "204": [
           {
-            "group": "Success 200",
-            "type": "Boolean",
+            "group": "204",
             "optional": false,
-            "field": "status",
-            "description": "<p>Status response.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Message of response.</p>"
+            "field": ".",
+            "description": ""
           }
         ]
       }
@@ -436,101 +513,24 @@
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "Boolean",
-            "optional": false,
-            "field": "status",
-            "description": "<p>Status response.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object[]",
-            "optional": false,
-            "field": "data",
-            "description": "<p>Data of user.</p>"
-          },
-          {
-            "group": "Success 200",
             "type": "Object",
             "optional": false,
-            "field": "data.info",
-            "description": "<p>Users info.</p>"
+            "field": "authorization",
+            "description": "<p>Authorization object.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "data.info.user_id",
-            "description": "<p>User id.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "data.info.username",
-            "description": "<p>User name.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "data.info.email",
-            "description": "<p>User email.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "data.info.fullname",
-            "description": "<p>User full name.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "data.info.created",
-            "description": "<p>User date created.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "data.info.updated",
-            "description": "<p>User date updated.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data.authorizationInfo",
-            "description": "<p>Authorization info.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "data.authorizationInfo.authorize_key",
+            "field": "authorization.authorize_key",
             "description": "<p>Authorization authorize key.</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "data.authorizationInfo.refresh_key",
+            "field": "authorization.refresh_key",
             "description": "<p>Authorization refresh key.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "data.authorizationInfo.key_expire",
-            "description": "<p>Authorization token expire.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "data.authorizationInfo.status",
-            "description": "<p>Authorization status.</p>"
           },
           {
             "group": "Success 200",
