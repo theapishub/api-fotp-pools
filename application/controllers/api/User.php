@@ -20,7 +20,7 @@ class User extends REST_Controller
     }
 
     /**
-     * @api {get} /user/list/(:token) Request User List
+     * @api {get} /user/list/?page=(:num)&token=(:any) Request User List
      * @apiName GetUserList
      * @apiGroup User
      *
@@ -77,7 +77,7 @@ class User extends REST_Controller
 
 
     /**
-     * @api {get} /user-info Request User Info
+     * @api {get} /user-info?id=(:num)&token=(:any) Request User Info
      * @apiName GetUserInfo
      * @apiGroup User
      *

@@ -38,7 +38,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/user-info",
+    "url": "/user-info?id=(:num)&token=(:any)",
     "title": "Request User Info",
     "name": "GetUserInfo",
     "group": "User",
@@ -123,7 +123,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/user/list/(:token)",
+    "url": "/user/list/?page=(:num)&token=(:any)",
     "title": "Request User List",
     "name": "GetUserList",
     "group": "User",
