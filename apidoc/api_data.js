@@ -37,8 +37,157 @@ define({ "api": [
     "groupTitle": "App"
   },
   {
+    "type": "post",
+    "url": "/authorization/refresh-token",
+    "title": "Request Refresh Token Key",
+    "name": "RefreshToken",
+    "group": "Authorization",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>Authorization's refresh token</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "status",
+            "description": "<p>Status response.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Message of response.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "application/controllers/api/Authorization.php",
+    "groupTitle": "Authorization"
+  },
+  {
+    "type": "post",
+    "url": "/user/add",
+    "title": "Request User Add New",
+    "name": "AddUser",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>User name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>User's email</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>User's password</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "fullname",
+            "description": "<p>User's full name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>User's token</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "201": [
+          {
+            "group": "201",
+            "type": "String",
+            "optional": false,
+            "field": "User",
+            "description": "<p>were created.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "application/controllers/api/User.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "delete",
+    "url": "/user/delete",
+    "title": "Request User Delete",
+    "name": "DeleteUser",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "user_id",
+            "description": "<p>User's id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>User's token</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "204": [
+          {
+            "group": "204",
+            "optional": false,
+            "field": ".",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "application/controllers/api/User.php",
+    "groupTitle": "User"
+  },
+  {
     "type": "get",
-    "url": "/user-info?id=(:num)&token=(:any)",
+    "url": "/user/user-info?id=(:num)&token=(:any)",
     "title": "Request User Info",
     "name": "GetUserInfo",
     "group": "User",
@@ -123,7 +272,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/user/list/?page=(:num)&token=(:any)",
+    "url": "/user/list?page=(:num)&token=(:any)",
     "title": "Request User List",
     "name": "GetUserList",
     "group": "User",
@@ -242,117 +391,10 @@ define({ "api": [
     "groupTitle": "User"
   },
   {
-    "type": "post",
-    "url": "/user/add",
-    "title": "Request User Add New",
-    "name": "PostAddUser",
-    "group": "User",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "username",
-            "description": "<p>User name</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "email",
-            "description": "<p>User's email</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "password",
-            "description": "<p>User's password</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "fullname",
-            "description": "<p>User's full name</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>User's token</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "201": [
-          {
-            "group": "201",
-            "type": "String",
-            "optional": false,
-            "field": "User",
-            "description": "<p>were created.</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "application/controllers/api/User.php",
-    "groupTitle": "User"
-  },
-  {
-    "type": "post",
-    "url": "/user/refresh-token",
-    "title": "Request User Refresh Token Key",
-    "name": "PostRefreshToken",
-    "group": "User",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>User's refresh token</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Boolean",
-            "optional": false,
-            "field": "status",
-            "description": "<p>Status response.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Message of response.</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "application/controllers/api/User.php",
-    "groupTitle": "User"
-  },
-  {
-    "type": "post",
+    "type": "patch",
     "url": "/user/update",
     "title": "Request User Update",
-    "name": "PostUpdateUser",
+    "name": "UpdateUser",
     "group": "User",
     "parameter": {
       "fields": {
@@ -442,51 +484,9 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/user/delete",
-    "title": "Request User Delete",
-    "name": "PostUserDelete",
-    "group": "User",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "user_id",
-            "description": "<p>User's id</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>User's token</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "204": [
-          {
-            "group": "204",
-            "optional": false,
-            "field": ".",
-            "description": ""
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "application/controllers/api/User.php",
-    "groupTitle": "User"
-  },
-  {
-    "type": "post",
     "url": "/user/login",
     "title": "Request User Login",
-    "name": "PostUserLogin",
+    "name": "UserLogin",
     "group": "User",
     "parameter": {
       "fields": {

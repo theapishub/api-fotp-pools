@@ -58,10 +58,10 @@ $route['api/app'] = 'api/app';
 
 
 // Routes for User
-$route['api/user/list/?page=(:num)&token=(:any)']['get'] = 'api/user/list/$1';
-$route['api/user/user-info/?id=(:num)&token=(:any)']['get'] = 'api/user/user_info/$1';
-$route['api/user/delete']['post'] = 'api/user/user_delete';
+$route['api/user/list?page=(:num)&token=(:any)']['get'] = 'api/user/list/$1';
+$route['api/user/user-info?id=(:num)&token=(:any)']['get'] = 'api/user/user_info/$1';
+$route['api/user/delete']['delete'] = 'api/user/user_destroy';
 $route['api/user/login']['post'] = 'api/user/user_login';
 $route['api/user/add']['post'] = 'api/user/user_add';
-$route['api/user/update']['post'] = 'api/user/user_update';
-$route['api/user/refresh-token']['post'] = 'api/user/user_refresh';
+$route['api/user/update']['patch'] = 'api/user/user_update';
+$route['api/authorization/refresh-token']['post'] = 'api/authorization/user_refresh';

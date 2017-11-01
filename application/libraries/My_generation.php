@@ -48,4 +48,8 @@ class My_generation
         }
         return $str;
     }
+
+    public function  generateResponse($response){
+        return json_decode(json_encode($response, JSON_FORCE_OBJECT));
+    }
 }

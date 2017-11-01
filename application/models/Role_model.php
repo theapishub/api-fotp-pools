@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Role_model extends CI_Model
 {
 
@@ -11,7 +12,7 @@ class Role_model extends CI_Model
 
     public function checkRole($token){
         try{
-            $query = $this->db->select('u.user_id,u.status')
+            $query = $this->db->select('u.user_id,u.status,p.permission_status')
                 ->from('authorize as a')
                 ->where('a.authorize_key', $token)
                 ->join('users as u', 'a.user_id = u.user_id', 'LEFT')

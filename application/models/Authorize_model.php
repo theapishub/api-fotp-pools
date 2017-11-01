@@ -102,15 +102,26 @@ class Authorize_model extends CI_Model
                 'refresh_key' => $token,
             ))->get();
             if ($query->num_rows() == 1) :
+                $today = $today = date('d-m-Y H:i:s');
+                $author = $query->custom_row_object(0, 'Auth_lib');
+                if (strtotime($today) < strtotime($author->key_expire)) :
+                    $this->message->message_response = [
+                        'message' => Message::TOKEN_OK,
+                        'status' => true,
+                        'token' => $author->authorize_key
+                    ];
+                    return $this->message->message_response;
+                endif;
                 $this->message->message_response = [
-                    'message' => Message::TOKEN_OK,
-                    'status' => true,
-                    'user' => $query->custom_row_object(0, 'Auth_lib')
+                    'error' => Message::TOKEN_EXPIRED,
+                    'status' => false,
+                    'isExpire' => true,
+                    'author' => $query->custom_row_object(0, 'Auth_lib')
                 ];
                 return $this->message->message_response;
             endif;
             $this->message->message_response = [
-                'message' => Message::NO_TOKEN_WERE_FOUND,
+                'error' => Message::NO_TOKEN_WERE_FOUND,
                 'status' => false
             ];
             return $this->message->message_response;
@@ -130,7 +141,8 @@ class Authorize_model extends CI_Model
             $this->db->update('authorize', $this->auth_lib);
             $this->message->message_response = [
                 'message' => Message::TOKEN_REFRESHED,
-                'status' => true
+                'status' => true,
+                'token' => $author_key
             ];
             return $this->message->message_response;
         }catch (Exception $e){
